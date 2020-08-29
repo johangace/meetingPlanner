@@ -1,0 +1,28 @@
+
+{%extends "base.html"%}
+
+{% block title%} 'Welcome' {% endblock%}
+<!--<p> {{message}}</p>-->
+
+{% block content%}
+<h1> Meeting Planner 1.01 Alpha </h1>
+<p>This is a demo App</p>
+<h2> Meetings </h2>
+   <a href="{%url 'new' %}">+ New Meeting </a>
+<p>
+    <ul>
+{% for meeting in meetings %}
+    <li>
+    <a href="{%url 'meetingDetail' meeting.id %}">
+        {{meeting.title}}
+    </a>
+    </li>
+{%endfor%}
+
+</ul>
+
+<a href="{%url 'rooms' %}"> Rooms List </a>
+{% endblock%}
+
+
+
