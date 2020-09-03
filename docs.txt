@@ -1,0 +1,41 @@
+
+cmd + O   ->  search
+
+
+
+
+1. django-admin startproject name
+2. cd name
+3. python manage.py runserver
+4. python manage.py startapp name
+5. add name of app into settings.py installed_apps
+
+
+
+                    ---Migrations
+6. python manage.py showmigrations
+7. python manage.py makemigrations
+9. python manage.py migrate    (checks changes)
+
+
+
+                    --- Admin
+  admin.py////     admin.site.register(name)
+ 1- python manage.py createsuperuser
+ User.objects.all().delete()
+
+
+
+                    ---DB stuff
+- python manage.py dbshell               /// go to db
+   -  .tables
+
+-  sql migrate:      python manage.py sqlmigrate appName migrationNumber
+
+
+
+                   --- Decorators
+
+- @user_passes_test(isStaffUser, login_url="/login")
+- @login_required(login_url="/login")
+- @permission_required(perm="meeting.add_meeting", login_url="/login" )

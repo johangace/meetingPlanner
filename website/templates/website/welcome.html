@@ -5,8 +5,19 @@
 <!--<p> {{message}}</p>-->
 
 {% block content%}
+
+ <h3>  {{request.user.username}}
+{% if request.user.is_staff %}
+  <span> Staff Member </span>
+{% else%}
+ user
+{%endif%}
+</h3>
+
 <h1> Meeting Planner 1.01 Alpha </h1>
 <p>This is a demo App</p>
+
+
 <h2> Meetings </h2>
    <a href="{%url 'new' %}">+ New Meeting </a>
 <p>

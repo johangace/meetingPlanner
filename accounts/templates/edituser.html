@@ -1,0 +1,19 @@
+{%extends "base.html"%}
+
+{% block title%}Edit User{% endblock%}
+
+{% block content%}
+
+
+
+<h1>Edit User</h1>
+
+
+<form method="POST">
+
+    <input type="text" name="phone" placeholder="phone"/>
+    <input type="text" name="info" placeholder="info"/>
+    <button type="submit"> Submit</button>
+    {%csrf_token %}
+</form>
+{% endblock %}
