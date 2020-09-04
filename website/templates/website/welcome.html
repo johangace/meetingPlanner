@@ -24,9 +24,23 @@
     <ul>
 {% for meeting in meetings %}
     <li>
+
+        <div>
     <a href="{%url 'meetingDetail' meeting.id %}">
         {{meeting.title}}
     </a>
+          <a href = "{% url 'deleteMeeting' meeting.id %}"> Delete</a>
+
+
+<!--<a href="{%url 'deleteMeeting' meeting.id %}">-->
+<!--        DELETE {{meeting.id}}-->
+<!--    </a>-->
+
+
+
+
+
+        </div>
     </li>
 {%endfor%}
 

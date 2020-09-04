@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from website.views import welcome, date, about
-from accounts.views import login_user, username,  logout_user, register, profile, edit_user
+# from accounts.views import login_user, username,  logout_user, register, profile, edit_user, friends,
 # from meetings.views import detail, room, roomDetail
 
 urlpatterns = [
@@ -25,10 +25,9 @@ urlpatterns = [
     path('date', date),
     path('about', about),
     path('meetings/', include('meetings.urls')),
-    path('login', login_user, name="login"),
-    path('register', register, name="register"),
-    path('username', username, name="username"),
-    path('logout', logout_user, name="logout"),
-    path('profile', profile, name="profile"),
-    path('edituser', edit_user, name="edituser"),
+    path('accounts/', include('accounts.urls')),
+
+
+
+
 ]

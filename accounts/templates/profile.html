@@ -1,10 +1,10 @@
 {%extends "base.html"%}
 
-{% block title%}Profile{% endblock%}
+{% block title%}Profile | {{request.user.profile}} {% endblock%}
 
 {% block content%}
 <h1>
-{{request.user.username}}
+    {{request.user.profile}}
 </h1>
 
 <div>
@@ -17,6 +17,9 @@ Info:
 </div>
 
 <a href="{%url 'edituser' %}"> Edit User </a>
+
+
+
 
 
 

@@ -39,3 +39,24 @@ cmd + O   ->  search
 - @user_passes_test(isStaffUser, login_url="/login")
 - @login_required(login_url="/login")
 - @permission_required(perm="meeting.add_meeting", login_url="/login" )
+
+
+
+
+                  ---Terminal
+- ** python manage.py shell  **
+
+
+---Many to Many relationship
+- from accounts.models import Friend, Profile
+  from django.contrib.auth.models import User
+  friend = Friend()
+  friend.save()
+  friend.profile.add(Profile.objects.first(), Profile.objects.last())
+  friend.profile.all()
+  Profile.objects
+
+
+
+
+

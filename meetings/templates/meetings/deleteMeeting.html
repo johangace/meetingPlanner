@@ -1,0 +1,4 @@
+<form method="POST" action="{% url 'deleteMeeting'  meeting.id %}">
+    {% csrf_token %}
+    <input type="button" id="submit" value="Delete" />
+  </form>

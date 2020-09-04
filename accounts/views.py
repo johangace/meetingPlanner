@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
 
 from .decorators import addTimeStamp
-from .models import Profile
+from .models import Profile, Friend
 from django.contrib.auth.decorators import login_required
 
 
@@ -48,13 +48,16 @@ def login_user(request):
 
 
 @login_required(login_url="/login")
-def username(request):
-    return HttpResponse(' Your username is : ' + request.user.username + "Your Phone:" + request.userprofile.phone)
+def username(request, id):
+    theuser = get_object_or_404(User, pk=id)
+    return HttpResponse(' Your username is : ' + theuser.username)
 
 
 @login_required(login_url="/login")
-def profile(request):
-    return render(request, 'profile.html', {"profile": Profile.objects.all()})
+def profile(request, id):
+    theuser = get_object_or_404(Profile, pk=id)
+    # theuser.profile
+    return render(request, 'profile.html', {"profile": theuser})
 
 
 # @addTimeStamp
@@ -75,3 +78,30 @@ def edit_user(request):
         user.profile.info = info
         user.save()
     return render(request, 'edituser.html')
+
+
+@login_required
+def change_friends(request, pk, verb):
+    new_friend = User.objects.get(pk=pk)
+    if verb == 'add':
+        Friend.make_friend(request.user, new_friend)
+    elif verb == 'remove':
+        Friend.delete_friend(request.user, new_friend)
+    return redirect("welcome")
+
+    # @login_required(login_url="/login")
+    # def friends(request, id):
+    #     theuser = get_object_or_404(User, pk=id)
+    #     friends= Friend.objects.get()
+    #
+    #
+    #     return render(request, 'friends.html', {"friends": Friend.objects.all(), "profile": User.objects.all()})
+
+
+@login_required(login_url="/login")
+def friends(request, id):
+    # theuser = get_object_or_404(User, pk=id)
+    user = User.objects.exclude(id= request.user.id)
+    friend = Friend.objects.get(current_user=request.user)
+    friends_list = friend.user.all()
+    return render(request, 'friends.html', {"friends": friends_list, })

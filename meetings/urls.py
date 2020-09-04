@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from meetings.views import detail, room, roomDetail
+# from meetings.views import detail, room, roomDetail, deleteMeeting
 from . import views
 from website.views import welcome, date, about
 
@@ -25,6 +25,7 @@ from . import views
 
 urlpatterns = [
     path('<int:id>', views.detail, name="meetingDetail"),
+    path('delete/<meeting_id>', views.deleteMeeting, name="deleteMeeting"),
     path('rooms', views.room, name="rooms"),
     path('rooms/<int:id>', views.roomDetail, name="roomDetail"),
     path('new', views.new, name="new")

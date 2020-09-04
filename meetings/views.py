@@ -18,6 +18,13 @@ def detail(request, id):
     return render(request, "meetings/detail.html", {"meeting": meeting})
 
 
+@login_required(login_url="/login")
+def deleteMeeting(request, meeting_id):
+    meeting = get_object_or_404(Meeting, pk=meeting_id)
+    meeting.delete()
+    return redirect("welcome")
+
+
 # @user_passes_test(isStaffUser, login_url="/login")
 @login_required(login_url="/login")
 # @permission_required(perm="meeting.add_meeting", login_url="/login" )
@@ -30,6 +37,10 @@ def new(request):
     else:
         form = MeetingForm()
     return render(request, "meetings/new.html", {"form": form})
+
+
+
+
 
 
 @login_required(login_url="/login")
