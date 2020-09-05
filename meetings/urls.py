@@ -30,9 +30,4 @@ urlpatterns = [
     path('rooms/<int:id>', views.roomDetail, name="roomDetail"),
     path('new', views.new, name="new")
 ]
-# urlpatterns = [
-#     path('<int:id>', detail, name="meetingDetail"),
-#     path('rooms/<int:id>', roomDetail, name="roomDetail"),
-#     path('rooms', room, name="rooms"),
-#     path('new', views.new, name="new")
 

@@ -11,8 +11,12 @@
     <link rel="stylesheet" href="{% static 'website/style.css' %}"/>
 </head>
 <body>
-
+<a href="/">Home</a>
+<a href="/accounts/{{request.user.profile}}">Profile</a>
+<a href="/accounts/{{request.user.profile}}/friends">Friends</a>
+<a href="/accounts/logout">Logout</a>
 {% block content%}
+
 
 {% endblock%}
 </body>

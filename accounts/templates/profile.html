@@ -1,28 +1,30 @@
 {%extends "base.html"%}
 
-{% block title%}Profile | {{request.user.profile}} {% endblock%}
+
+{% block title%} Profile | {{request.user.profile}} {% endblock%}
 
 {% block content%}
+
+
+
+
 <h1>
-    {{request.user.profile}}
+ {{ userProfile.first_name }}
 </h1>
 
 <div>
 Phone:
-{{request.user.profile.phone}}
+{{userProfile.profile.phone}}
 </div>
 <div>
 Info:
-{{request.user.profile.info}}
+{{userProfile.profile.info}}
 </div>
 
+
+{% if request.user.profile == userProfile.profile %}
 <a href="{%url 'edituser' %}"> Edit User </a>
-
-
-
-
-
-
+{%endif%}
 
 
 

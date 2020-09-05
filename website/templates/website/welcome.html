@@ -1,9 +1,6 @@
 
 {%extends "base.html"%}
-
 {% block title%} 'Welcome' {% endblock%}
-<!--<p> {{message}}</p>-->
-
 {% block content%}
 
  <h3>  {{request.user.username}}
@@ -30,16 +27,6 @@
         {{meeting.title}}
     </a>
           <a href = "{% url 'deleteMeeting' meeting.id %}"> Delete</a>
-
-
-<!--<a href="{%url 'deleteMeeting' meeting.id %}">-->
-<!--        DELETE {{meeting.id}}-->
-<!--    </a>-->
-
-
-
-
-
         </div>
     </li>
 {%endfor%}

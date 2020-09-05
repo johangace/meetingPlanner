@@ -10,9 +10,7 @@
     <ul>
 {% for friend in friends %}
     <li>
-<!--    <a href="rooms/{{room.id}}">-->
-
-        <a>
+          <a href="{%url 'profile' friend.username%}">
         {{friend}}
     </a>
     </li>
