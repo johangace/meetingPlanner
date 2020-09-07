@@ -6,12 +6,17 @@
 <h2>Friends</h2>
 <p>
     <ul>
+
+
 {% for friend in friends %}
     <li>
-          <a href="{%url 'profile' friend.username%}">
+          <a href="{%url 'profile' friend.username %}">
 
         {{friend}}
     </a>
+{% if friend in friends %}
+     <a href="{%url 'change_friends' verb='remove'  username=friend.username %}"> Remove</a>
+{%endif%}
     </li>
 {%endfor%}
 

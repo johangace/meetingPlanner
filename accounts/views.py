@@ -50,15 +50,24 @@ def login_user(request):
 @login_required(login_url="/login")
 def get_user_profile(request, username):
     user = User.objects.get(username=username)
-    return render(request, 'profile.html', {"userProfile": user})
+    friend = Friend.objects.get(current_user=user)
+    friends_list = friend.user.all()
+    # is_friend = friend.user.filter(username=user).exists()
+    return render(request, 'profile.html', {"userProfile": user, "friends":  friends_list})
 
+
+# def is_friend(request, username):
+#     user = User.objects.get(username=username)
+#     friend = Friend.objects.get(current_user=user)
+#     return friend.user.filter(username=username).exists()
 
 # @addTimeStamp
 @login_required(login_url="/login")
 def logout_user(request):
     logout(request)
     # return HttpResponse("Successfully logged out")
-    return render(request, 'login.html')
+    # return render(request, 'login.html')
+    return redirect("welcome")
 
 
 @login_required(login_url="/login")
@@ -75,17 +84,23 @@ def edit_user(request):
 
 
 @login_required
-def change_friends(request, pk, verb):
-    new_friend = User.objects.get(pk=pk)
+def change_friends(request, username, verb):
+
+    new_friend = User.objects.get(username=username)
+    owner = request.user.profile
     if verb == 'add':
         Friend.make_friend(request.user, new_friend)
-    elif verb == 'remove':
+    else:
         Friend.delete_friend(request.user, new_friend)
-    return redirect("welcome")
+    # return redirect("welcome")
+    return redirect("profile", new_friend)
 
 
 @login_required(login_url="/login")
 def friends(request, username):
-    friend = Friend.objects.get(current_user=request.user)
+    user = User.objects.get(username=username)
+    friend = Friend.objects.get(current_user=user)
     friends_list = friend.user.all()
-    return render(request, 'friends.html', {"friends": friends_list, })
+    return render(request, 'friends.html', {"friends": friends_list,  "userProfile": user})
+
+

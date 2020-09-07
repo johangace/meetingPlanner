@@ -43,7 +43,7 @@ class Friend(models.Model):
         friend, created = cls.objects.get_or_create(
             current_user=current_user
         )
-        friend.users.remove(new_friend)
+        friend.user.remove(new_friend)
 
     def __str__(self):
         return str(self.current_user)
