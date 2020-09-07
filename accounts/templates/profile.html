@@ -8,8 +8,8 @@
 
 <h1>
  {{ userProfile.first_name }}
-    {{ userProfile }}
 </h1>
+<h3> @{{ userProfile }}</h3>
 
 <div>
 Phone:
@@ -21,40 +21,21 @@ Info:
 </div>
 
 
-{% if request.user.profile == userProfile.profile %}
+{% if  owner == userProfile.profile  %}
 <a href="{%url 'edituser' %}"> Edit User </a>
+{%endif%}
 
-{% elif userProfile == friend %}
+
+{% if  owner != userProfile.profile  %}
+
+{% if  isFriend  %}
 <a href="{%url 'change_friends' verb='remove'  username=userProfile.profile %}"> Remove </a>
+{%else%}
+<a href="{%url 'change_friends' verb='add'  username=userProfile.profile %}"> Follow </a>
+{%endif%}
 
 {%else%}
 
-<a href="{%url 'change_friends' verb='add'  username=userProfile.profile %}"> Follow </a>
-
 {%endif%}
-
-
-
-<h2>Friends </h2>
-
-
-{% for friend in friends %}
-    <li>
-          <a href="{%url 'profile' friend.username %}">
-
-        {{friend}}
-    </a>
-
-
-    {% if userProfile == friend %}
-     <a href="{%url 'change_friends' verb='remove'  username=friend.username %}"> Remove</a>
-
-        {% else  %}
-     <a href="{%url 'change_friends' verb='add'  username=friend.username %}"> add </a>
-{%endif%}
-    </li>
-{%endfor%}
-
-
 
 {% endblock %}

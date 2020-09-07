@@ -50,10 +50,11 @@ def login_user(request):
 @login_required(login_url="/login")
 def get_user_profile(request, username):
     user = User.objects.get(username=username)
-    friend = Friend.objects.get(current_user=user)
-    friends_list = friend.user.all()
-    # is_friend = friend.user.filter(username=user).exists()
-    return render(request, 'profile.html', {"userProfile": user, "friends":  friends_list})
+    getFriendsOf = Friend.objects.get(current_user=request.user)
+    owner = request.user.profile
+    friends_list = getFriendsOf.user.all()
+    is_friend = getFriendsOf.user.filter(username=user).exists()
+    return render(request, 'profile.html', {'isFriend': is_friend, "owner": owner, "friend": getFriendsOf, "userProfile": user, "friends":  friends_list})
 
 
 # def is_friend(request, username):
