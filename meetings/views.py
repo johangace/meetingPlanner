@@ -4,6 +4,9 @@ from .models import Meeting, Room
 from .forms import MeetingForm
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.contrib.auth.models import User
+from .serializers import MeetingSerializer, RoomSerializer
+from rest_framework import generics
 
 
 def isStaffUser(user):
@@ -39,10 +42,6 @@ def new(request):
     return render(request, "meetings/new.html", {"form": form})
 
 
-
-
-
-
 @login_required(login_url="/login")
 def room(request):
     if not request.user.is_authenticated:
@@ -57,5 +56,25 @@ def room(request):
 def roomDetail(request, id):
     theroom = get_object_or_404(Room, pk=id)
     return render(request, "meetings/roomDetail.html", {"room": theroom})
+
+
+class DetailRoom(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+
+
+class ListRoom(generics.ListCreateAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+
+
+class ListMeeting(generics.ListCreateAPIView):
+    queryset = Meeting.objects.all()
+    serializer_class = MeetingSerializer
+
+
+class DetailMeeting(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Meeting.objects.all()
+    serializer_class = MeetingSerializer
 
 # MeetingForm = modelform_factory(Meeting, exclude=[])

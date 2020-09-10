@@ -28,6 +28,14 @@ urlpatterns = [
     path('delete/<meeting_id>', views.deleteMeeting, name="deleteMeeting"),
     path('rooms', views.room, name="rooms"),
     path('rooms/<int:id>', views.roomDetail, name="roomDetail"),
-    path('new', views.new, name="new")
+    path('new', views.new, name="new"),
+    path('api', views.ListRoom.as_view()),
+
+    # testing API
+    path('roomapi/<int:pk>/', views.DetailRoom.as_view()),
+    path('roomapi', views.ListRoom.as_view()),
+    path('meetingapi/<int:pk>/', views.DetailMeeting.as_view()),
+    path('meetingapi', views.ListMeeting.as_view()),
+
 ]
 
