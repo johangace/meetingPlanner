@@ -42,6 +42,13 @@ def new(request):
     return render(request, "meetings/new.html", {"form": form})
 
 
+
+
+class ListRoom(generics.ListCreateAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+
+
 @login_required(login_url="/login")
 def room(request):
     if not request.user.is_authenticated:
@@ -62,10 +69,6 @@ class DetailRoom(generics.RetrieveUpdateDestroyAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
 
-
-class ListRoom(generics.ListCreateAPIView):
-    queryset = Room.objects.all()
-    serializer_class = RoomSerializer
 
 
 class ListMeeting(generics.ListCreateAPIView):
