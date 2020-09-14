@@ -7,77 +7,139 @@ from django.contrib.auth.decorators import login_required, user_passes_test, per
 from django.contrib.auth.models import User
 from .serializers import MeetingSerializer, RoomSerializer
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
 
 
-def isStaffUser(user):
-    return user.username == "johan"
+# def isStaffUser(user):
+#     return user.username == "johan"
 
 
-@login_required(login_url="/login")
-def detail(request, id):
-    meeting = get_object_or_404(Meeting, pk=id)
-    if not request.user.is_authenticated:
-        return HttpResponse("Unauthorized")
-    return render(request, "meetings/detail.html", {"meeting": meeting})
+# @login_required(login_url="/login")
+# def detail(request, id):
+#     meeting = get_object_or_404(Meeting, pk=id)
+#     if not request.user.is_authenticated:
+#         return HttpResponse("Unauthorized")
+#     return render(request, "meetings/detail.html", {"meeting": meeting})
 
 
-@login_required(login_url="/login")
-def deleteMeeting(request, meeting_id):
-    meeting = get_object_or_404(Meeting, pk=meeting_id)
-    meeting.delete()
-    return redirect("welcome")
+# @login_required(login_url="/login")
+# def deleteMeeting(request, meeting_id):
+#     meeting = get_object_or_404(Meeting, pk=meeting_id)
+#     meeting.delete()
+#     return redirect("welcome")
 
 
-# @user_passes_test(isStaffUser, login_url="/login")
-@login_required(login_url="/login")
-# @permission_required(perm="meeting.add_meeting", login_url="/login" )
-def new(request):
-    if request.method == "POST":
-        form = MeetingForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("welcome")
-    else:
-        form = MeetingForm()
-    return render(request, "meetings/new.html", {"form": form})
+# # @user_passes_test(isStaffUser, login_url="/login")
+# @login_required(login_url="/login")
+# # @permission_required(perm="meeting.add_meeting", login_url="/login" )
+# def new(request):
+#     if request.method == "POST":
+#         form = MeetingForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("welcome")
+#     else:
+#         form = MeetingForm()
+#     return render(request, "meetings/new.html", {"form": form})
 
 
+# class ListRoom(generics.ListCreateAPIView):
+#     queryset = Room.objects.all()
+#     serializer_class = RoomSerializer
 
 
-class ListRoom(generics.ListCreateAPIView):
-    queryset = Room.objects.all()
-    serializer_class = RoomSerializer
+# @login_required(login_url="/login")
+# def room(request):
+#     if not request.user.is_authenticated:
+#         return HttpResponse("Unauthorized")
+#     return render(request, 'meetings/rooms.html',
+#                   {"message": " from views.py",
+#                    "rooms": Room.objects.all()
+#                    })
 
 
-@login_required(login_url="/login")
-def room(request):
-    if not request.user.is_authenticated:
-        return HttpResponse("Unauthorized")
-    return render(request, 'meetings/rooms.html',
-                  {"message": " from views.py",
-                   "rooms": Room.objects.all()
-                   })
+# @login_required(login_url="/login")
+# def roomDetail(request, id):
+#     theroom = get_object_or_404(Room, pk=id)
+#     return render(request, "meetings/roomDetail.html", {"room": theroom})
 
 
-@login_required(login_url="/login")
-def roomDetail(request, id):
-    theroom = get_object_or_404(Room, pk=id)
-    return render(request, "meetings/roomDetail.html", {"room": theroom})
+# class DetailRoom(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Room.objects.all()
+#     serializer_class = RoomSerializer
 
 
-class DetailRoom(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Room.objects.all()
-    serializer_class = RoomSerializer
+# class ListMeeting(generics.ListCreateAPIView):
+#     queryset = Meeting.objects.all()
+#     serializer_class = MeetingSerializer
 
 
+# class DetailMeeting(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Meeting.objects.all()
+#     serializer_class = MeetingSerializer
 
-class ListMeeting(generics.ListCreateAPIView):
-    queryset = Meeting.objects.all()
-    serializer_class = MeetingSerializer
+
+@api_view(['GET', 'POST'])
+def ListMeeting(request):
+    if request.method == 'GET':
+        data = Meeting.objects.all()
+
+        serializer = MeetingSerializer(
+            data, context={'request': request}, many=True)
+
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = MeetingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class DetailMeeting(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Meeting.objects.all()
-    serializer_class = MeetingSerializer
+# @api_view(['PUT', 'DELETE'])
+# def DetailMeeting(request, pk):
+#     try:
+#         meeting = Meeting.objects.get(pk=pk)
+#     except Meeting.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
-# MeetingForm = modelform_factory(Meeting, exclude=[])
+#     if request.method == 'PUT':
+#         serializer = MeetingSerializer(
+#             meeting, data=request.data, context={'request': request})
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(status=status.HTTP_204_NO_CONTENT)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#     elif request.method == 'DELETE':
+#         meeting.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['PUT', 'DELETE'])
+def DetailMeeting(request, pk):
+    try:
+        meeting = Meeting.objects.get(pk=pk)
+    except Meeting.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        serializer = MeetingSerializer(
+            meeting, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        meeting.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+#  def delete(self, request, *args, **kwargs):
+#         question = get_object_or_404(Question, pk=kwargs['question_id'])
+#         question.delete()
+#         return Response("Question deleted", status=status.HTTP_204_NO_CONTENT)

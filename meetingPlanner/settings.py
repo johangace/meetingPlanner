@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+CSRF_COOKIE_NAME = "csrftoken"
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 # from meetings.views import detail, room, roomDetail, deleteMeeting
 from . import views
 from website.views import welcome, date, about
@@ -24,18 +24,20 @@ from . import views
 
 
 urlpatterns = [
-    path('<int:id>', views.detail, name="meetingDetail"),
-    path('delete/<meeting_id>', views.deleteMeeting, name="deleteMeeting"),
-    path('rooms', views.room, name="rooms"),
-    path('rooms/<int:id>', views.roomDetail, name="roomDetail"),
-    path('new', views.new, name="new"),
-    path('api', views.ListRoom.as_view()),
+    # path('<int:id>', views.detail, name="meetingDetail"),
+    # path('delete/<meeting_id>', views.deleteMeeting, name="deleteMeeting"),
+    # path('rooms', views.room, name="rooms"),
+    # path('rooms/<int:id>', views.roomDetail, name="roomDetail"),
+    # path('new', views.new, name="new"),
 
-    # testing API
-    path('roomapi/<int:pk>/', views.DetailRoom.as_view()),
-    path('roomapi', views.ListRoom.as_view()),
-    path('meetingapi/<int:pk>/', views.DetailMeeting.as_view()),
-    path('meetingapi', views.ListMeeting.as_view()),
 
+    # # testing API
+    # path('roomapi/<int:pk>/', views.DetailRoom.as_view()),
+    # path('roomapi', views.ListRoom.as_view()),
+    # re_path('meetingapi/<int:pk>/', views.DetailMeeting),
+
+    # re_path('api', views.ListMeeting),
+
+    re_path(r'^meetings/$', views.ListMeeting),
+    re_path(r'^api/students/([0-9])$', views.DetailMeeting)
 ]
-
