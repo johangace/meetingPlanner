@@ -24,22 +24,20 @@ from . import views
 
 
 urlpatterns = [
-    # path('<int:id>', views.detail, name="meetingDetail"),
-    # path('delete/<meeting_id>', views.deleteMeeting, name="deleteMeeting"),
-    # path('rooms', views.room, name="rooms"),
-    # path('rooms/<int:id>', views.roomDetail, name="roomDetail"),
-    # path('new', views.new, name="new"),
+    path('<int:id>', views.detail, name="meetingDetail"),
+    path('delete/<meeting_id>', views.deleteMeeting, name="deleteMeeting"),
+    path('rooms', views.room, name="rooms"),
+    path('rooms/<int:id>', views.roomDetail, name="roomDetail"),
+    path('new', views.new, name="new"),
 
 
     # # testing API
     # path('roomapi/<int:pk>/', views.DetailRoom.as_view()),
     # path('roomapi', views.ListRoom.as_view()),
+
+
     # re_path('meetingapi/<int:pk>/', views.DetailMeeting),
-
     # re_path('api', views.ListMeeting),
-
     re_path(r'^meetings/$', views.ListMeeting),
-    re_path(r'^meetings/(?P<meeting_id>\d+)/$', views.DetailMeeting),
-    # url(r'^questions/(?P<pk>\d+)/$'
-
+    re_path(r'^meetings/(?P<meeting_id>\d+)$', views.DetailMeeting),
 ]
