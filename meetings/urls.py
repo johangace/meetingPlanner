@@ -39,5 +39,7 @@ urlpatterns = [
     # re_path('api', views.ListMeeting),
 
     re_path(r'^meetings/$', views.ListMeeting),
-    re_path(r'^api/students/([0-9])$', views.DetailMeeting)
+    re_path(r'^meetings/(?P<meeting_id>\d+)/$', views.DetailMeeting),
+    # url(r'^questions/(?P<pk>\d+)/$'
+
 ]
