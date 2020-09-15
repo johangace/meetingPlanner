@@ -101,13 +101,9 @@ def DetailMeeting(request, meeting_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        data = get_object_or_404(Meeting, pk=meeting_id)
         serializer = MeetingSerializer(
-            data, context={'request': request}, many=False)
+            meeting, context={'request': request}, many=False)
         return Response(serializer.data)
-        # serializer = MeetingSerializer(
-        #     meeting, context={'request': request}, many=False)
-        # return Response(serializer.data)
 
     if request.method == 'PUT':
         serializer = MeetingSerializer(
